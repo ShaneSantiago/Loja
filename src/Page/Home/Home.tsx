@@ -7,6 +7,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import ProductSkeleton from "./Components/Skeleton";
 import Footer from "../../Components/Footer/Footer";
+import { toast } from "react-toastify";
 
 interface Product {
   id: number;
@@ -35,10 +36,12 @@ const Home: React.FC = () => {
         item.id === novoItem.id ? { ...item, amount: item.amount + 1 } : item
       );
       setCarrinho(novoCarrinho);
+      toast.success("Produto adicionado ao carrinho com sucesso!");
     } else {
       const novoCarrinho = [...carrinho, { ...novoItem, amount: 1 }];
       setCarrinho(novoCarrinho);
     }
+    toast.success("Produto adicionado ao carrinho com sucesso!");
   };
 
   useEffect(() => {

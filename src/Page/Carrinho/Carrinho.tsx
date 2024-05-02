@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useResults } from "../../Components/Context/GlobalContext";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 interface CarrinhoProps {
   ocultar: () => void;
@@ -20,7 +22,6 @@ const Carrinho: React.FC<CarrinhoProps> = ({ ocultar }) => {
   const { carrinho, setCarrinho } = useResults();
   const [total, setTotal] = useState<number>(0);
 
-  // Atualiza o valor total sempre que o carrinho mudar
   useEffect(() => {
     const novoTotal = carrinho.reduce((acc: any, item: any) => {
       return acc + parseFloat(item.price) * item.amount;
@@ -53,6 +54,12 @@ const Carrinho: React.FC<CarrinhoProps> = ({ ocultar }) => {
       }
       setCarrinho(novoCarrinho);
     }
+  };
+
+  const finalizarCompra = () => {
+    setCarrinho([]);
+    toast.success("Compra finalizada com sucesso");
+    ocultar();
   };
 
   return (
@@ -91,7 +98,9 @@ const Carrinho: React.FC<CarrinhoProps> = ({ ocultar }) => {
           <p>Total:</p>
           <p>R${total.toFixed(0)}</p>
         </BoxTotal>
-        <ButtonFinalizar>Finalizar compra</ButtonFinalizar>
+        <ButtonFinalizar onClick={finalizarCompra}>
+          Finalizar compra
+        </ButtonFinalizar>
       </ContainerTotal>
     </>
   );
